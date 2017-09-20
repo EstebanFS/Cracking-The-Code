@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <cmath>
 
 using namespace std;
 
@@ -14,25 +15,36 @@ Space Complexity: O(n)
 
 #define ASCII 128
 
-/*bool oneWay(string &x, string &y) {
-  vector<int> frequencyX(ASCII, 0);
-  vector<int> frequencyY(ASCII, 0);
-  for(int i = 0; i < x.size(); ++i) {
-    int currChar = x[i];
-    frequencyX[currChar]++;
+bool isOneRemovingAway(string &x, string &y) {
+  int indexX = 0, indexY = 0;
+  while(indexX < x.size() && indexY < y.size()) {
+    if(x[indexX] != y[indexY]) {
+      if(indexX != indexY) return false;
+      indexX++;
+    } else {
+      indexX++;
+      indexY++;
+    }
   }
-  for(int i = 0; i < y.size(); ++i) {
-    int currChar = y[i];
-    frequencyY[currChar]++;
-  }
+  return true;
+}
+
+bool isOneReplaceAway(string &x, string &y) {
   int diff = 0;
-  for(int i = 0; i < ASCII; ++i) {
-    diff += abs(frequencyX[i] - frequencyY[i]);
+  for(int i = 0; i < x.size(); ++i) {
+    if(x[i] != y[i]) diff++;
+    if(diff > 1) return false;
   }
-  return diff <= 1;
-}*/
+  return true;
+}
+
+bool isOneAway(string &x, string &y) {
+  if(abs((int)x.size() - (int)y.size()) > 1) return false;
+  if(x.size() == y.size() && isOneReplaceAway(x, y)) return true;
+  return isOneRemovingAway(x, y) || isOneRemovingAway(y, x);
+}
 
 int main() {
   string x, y;
-  while(cin >> x >> y) cout << oneWay(x, y) << endl;
+  while(cin >> x >> y) cout << isOneAway(x, y) << endl;
 }
