@@ -7,7 +7,7 @@ using namespace std;
                of a single linked list.
 
   Time Complexity: O(n)
-  Space Complexity: O(n)
+  Space Complexity: O(1)
 */
 
 #define D(x) cout << #x << " = " << x << endl;
